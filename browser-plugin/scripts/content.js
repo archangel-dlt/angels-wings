@@ -12,7 +12,7 @@ async function angelsWings() {
 	images = await authenticateImages(images);
 	console.log(images);
 	images.forEach(image => {
-		image.element.wrap(image.authentic 
+		image.element.wrap(image.authentic
 			? Authenticated
 			: NotAuthenticated
 		);
@@ -22,7 +22,7 @@ async function angelsWings() {
 ////////////////////////////////
 async function authenticateImages(images) {
 	const l = images.length;
-	for (let i = 0; i != l; ++i) 
+	for (let i = 0; i != l; ++i)
 		images[i].authentic = (i%2 === 0);
 	return images;
 }
@@ -30,6 +30,10 @@ async function authenticateImages(images) {
 function gatherImages() {
 	return $('img').map(function() {
 		const element = $(this);
+
+		if (isTooSmall(element))
+		  return;
+
 		const src = absolutiseImageSrc(element);
 
 		if (!src)
@@ -40,6 +44,10 @@ function gatherImages() {
 			src: src
 		};
 	}).get()
+}
+
+function isTooSmall(image) {
+  return (image.width() < 100) || (image.height() < 100);
 }
 
 function absolutiseImageSrc(image) {
