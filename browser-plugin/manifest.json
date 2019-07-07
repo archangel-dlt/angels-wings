@@ -1,0 +1,19 @@
+{
+	"name": "ARCHANGEL Angel's Wings",
+	"version": "1.0",
+	"description": "ARCHANGEL Image Authenticity Demonstration Project",
+	"manifest_version": 2,
+	"icons": {
+		"128": "images/archangel-logo-128.png"
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"<all_urls>"
+			],
+			"js" : [
+				"content.js"
+			]
+		}
+	]
+}
