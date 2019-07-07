@@ -2,6 +2,30 @@ const baseProtocol = window.location.protocol;
 const baseUrl = window.location.origin;
 const baseLocation = baseUrl + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
 
+
+const images = gatherImages();
+
+
+images.forEach(image => {
+	image.element.wrap("<div class='archangel-authenticated'></div>");
+});
+
+////////////////////////////////
+function gatherImages() {
+	return $('img').map(function() {
+		const element = $(this);
+		const src = absolutiseImageSrc(element);
+
+		if (!src)
+			return null;
+
+		return {
+			element: element,
+			src: src
+		};
+	}).get()
+}
+
 function absolutiseImageSrc(image) {
 	var src = image.attr('src');
 	if (!src)
@@ -21,22 +45,3 @@ function absolutiseImageSrc(image) {
 	return src;
 }
 
-
-const images = $('img').map(function(){
-	const element = $(this);
-	const src = absolutiseImageSrc(element);
-
-	if (!src)
-		return null;
-
-	return {
-		element: element,
-		src: src
-	};
-}).get()
-
-console.log(images);
-
-images.forEach(image => {
-	image.element.wrap("<div class='archangel-authenticated'></div>");
-});
