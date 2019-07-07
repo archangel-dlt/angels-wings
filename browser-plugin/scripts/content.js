@@ -2,15 +2,26 @@ const baseProtocol = window.location.protocol;
 const baseUrl = window.location.origin;
 const baseLocation = baseUrl + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
 
+angelsWings();
 
-const images = gatherImages();
-
-
-images.forEach(image => {
-	image.element.wrap("<div class='archangel-authenticated'></div>");
-});
+async function angelsWings() {
+	let images = gatherImages();
+	images = await authenticateImages(images);
+	console.log(images);
+	images.forEach(image => {
+		if (image.authentic)
+			image.element.wrap("<div class='archangel-authenticated'></div>");
+	});
+} // angelsWings
 
 ////////////////////////////////
+async function authenticateImages(images) {
+	const l = images.length;
+	for (let i = 0; i != l; ++i) 
+		images[i].authentic = (i%2 === 0);
+	return images;
+}
+
 function gatherImages() {
 	return $('img').map(function() {
 		const element = $(this);
