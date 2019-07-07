@@ -1,9 +1,9 @@
-var baseProtocol = window.location.protocol;
-var baseUrl = window.location.origin;
-var baseLocation = baseUrl + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1)
+const baseProtocol = window.location.protocol;
+const baseUrl = window.location.origin;
+const baseLocation = baseUrl + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
 
-var images = $('img').map(function(){
-	var src = $(this).attr('src');
+function absolutiseImageSrc(image) {
+	var src = $(image).attr('src');
 	if (!src) 
 		return;
 	// embedded images - ignore
@@ -18,6 +18,12 @@ var images = $('img').map(function(){
 	if (src.indexOf('://') === -1)
 		return baseLocation + src;
 
+	return src;
+}
+
+
+const images = $('img').map(function(){
+	const src = absolutiseImageSrc(this);
 	return src;
 }).get()
 
