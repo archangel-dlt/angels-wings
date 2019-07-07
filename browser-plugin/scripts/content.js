@@ -1,5 +1,6 @@
 var baseProtocol = window.location.protocol;
 var baseUrl = window.location.origin;
+var baseLocation = baseUrl + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1)
 
 var images = $('img').map(function(){
 	var src = $(this).attr('src');
@@ -14,6 +15,8 @@ var images = $('img').map(function(){
 		return baseProtocol + src;
 	if (src.startsWith('/')) 
 		return baseUrl + src;
+	if (src.indexOf('://') === -1)
+		return baseLocation + src;
 
 	return src;
 }).get()
