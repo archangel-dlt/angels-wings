@@ -3,8 +3,8 @@ const baseUrl = window.location.origin;
 const baseLocation = baseUrl + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
 
 function absolutiseImageSrc(image) {
-	var src = $(image).attr('src');
-	if (!src) 
+	var src = image.attr('src');
+	if (!src)
 		return;
 	// embedded images - ignore
 	if (src.startsWith('data:'))
@@ -13,7 +13,7 @@ function absolutiseImageSrc(image) {
 	// relative URLs
 	if (src.startsWith('//'))
 		return baseProtocol + src;
-	if (src.startsWith('/')) 
+	if (src.startsWith('/'))
 		return baseUrl + src;
 	if (src.indexOf('://') === -1)
 		return baseLocation + src;
@@ -23,17 +23,20 @@ function absolutiseImageSrc(image) {
 
 
 const images = $('img').map(function(){
-	const src = absolutiseImageSrc(this);
-	
+	const element = $(this);
+	const src = absolutiseImageSrc(element);
+
 	if (!src)
 		return null;
 
 	return {
-		image: this,
+		element: element,
 		src: src
 	};
 }).get()
 
-console.log("Shout out to my boys");
 console.log(images);
-console.log("Laters");
+
+images.forEach(image => {
+	image.element.wrap("<div class='archangel-authenticated'></div>");
+});

@@ -1,0 +1,20 @@
+.archangel-authenticated {
+	position: relative;
+}
+
+.archangel-authenticated:after {
+	content: "";
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-image: url("chrome-extension://__MSG_@@extension_id__/images/tick.png");
+	background-size: 64px 64px;
+	background-position: 15px 15px;
+	background-repeat: no-repeat;
+	opacity: 0.7;
+}
+
+
