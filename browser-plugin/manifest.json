@@ -12,7 +12,7 @@
 				"<all_urls>"
 			],
 			"js" : [
-				"content.js"
+				"scripts/jquery-3.4.1.min.js", "scripts/content.js"
 			]
 		}
 	]
