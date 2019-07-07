@@ -24,7 +24,14 @@ function absolutiseImageSrc(image) {
 
 const images = $('img').map(function(){
 	const src = absolutiseImageSrc(this);
-	return src;
+	
+	if (!src)
+		return null;
+
+	return {
+		image: this,
+		src: src
+	};
 }).get()
 
 console.log("Shout out to my boys");
