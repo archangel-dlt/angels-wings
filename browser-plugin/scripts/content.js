@@ -2,6 +2,9 @@ const baseProtocol = window.location.protocol;
 const baseUrl = window.location.origin;
 const baseLocation = baseUrl + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
 
+const Authenticated = "<div class='archangel-authenticated'></div>";
+const NotAuthenticated = "<div class='archangel-not-authenticated'></div>";
+
 angelsWings();
 
 async function angelsWings() {
@@ -9,8 +12,10 @@ async function angelsWings() {
 	images = await authenticateImages(images);
 	console.log(images);
 	images.forEach(image => {
-		if (image.authentic)
-			image.element.wrap("<div class='archangel-authenticated'></div>");
+		image.element.wrap(image.authentic 
+			? Authenticated
+			: NotAuthenticated
+		);
 	});
 } // angelsWings
 
