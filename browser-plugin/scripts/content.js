@@ -5,10 +5,16 @@ var images = $('img').map(function(){
 	var src = $(this).attr('src');
 	if (!src) 
 		return;
+	// embedded images - ignore
+	if (src.startsWith('data:'))
+		return null;
+
+	// relative URLs
 	if (src.startsWith('//'))
 		return baseProtocol + src;
 	if (src.startsWith('/')) 
 		return baseUrl + src;
+
 	return src;
 }).get()
 
