@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect
 
 app = Flask(__name__,
             static_url_path='',
@@ -7,7 +7,11 @@ app = Flask(__name__,
 
 @app.route("/")
 def home():
-    return "Hola"
+    return redirect("/index.html", code=302)
+
+@app.route("/photo-id")
+def photoId():
+    return "Identifying a Photo"
 
 if __name__ == "__main__":
     app.run(debug=True)
