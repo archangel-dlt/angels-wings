@@ -51,7 +51,7 @@ function isTooSmall(image) {
 }
 
 function absolutiseImageSrc(image) {
-	var src = image.attr('src');
+	const src = image.attr('src');
 	if (!src)
 		return;
 	// embedded images - ignore
