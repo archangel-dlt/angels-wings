@@ -18,6 +18,6 @@ app.use(fileUpload({
 
 app.get('/', (req, res) => res.redirect(301, '/index.html'));
 app.use(express.static(path.join(__dirname, 'static')));
-app.get('/fingerprint', fingerprint);
+app.post('/fingerprint', fingerprint);
 
 module.exports = app;
