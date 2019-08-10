@@ -1,11 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#from utils.extractor import Extractor
+import sys
+from extractor import Extractor
 
 if __name__ == '__main__':
-    #hasher = Extractor()
+  hasher = Extractor()
 
-    #img_path = 'cat.jpg'
-    #hash = hasher.extract(img_path)
-    print("[0.48221883 0.5587628  0.48636276 ... 0.         0.11017019 0.02501451]")
+  img_path = sys.argv[1]
+  img_hash = hasher.extract(img_path)
+
+  print('[')
+  comma = ''
+  for h in img_hash:
+    print(f'{comma}  {h}', end = '')
+    comma = ',\n'
+  print('\n]')
