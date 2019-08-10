@@ -7,13 +7,13 @@
   animation-duration: 5s;
   animation-timing-function: linear;
   height: 80px;
+  padding-right: 20px;
 }
 
 .App-header {
-  background-color: #222;
-  height: 130px;
+  background-color: lightskyblue;
+  height: 110px;
   padding: 20px;
-  color: white;
 }
 
 .App-title {

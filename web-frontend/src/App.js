@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './fingerprint.svg';
 import './bootstrap/css/bootstrap.css'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -64,10 +64,7 @@ class Body extends Component {
         <TabList>
           <Tab>Search</Tab>
           { this.state.canWrite &&
-            <Tab className='react-tabs__tab offset-9'>New SIP</Tab>
-          }
-          { this.state.sip &&
-            <Tab className='react-tabs__tab'>AIP</Tab>
+            <Tab className='react-tabs__tab offset-9'>New Image Fingerprint</Tab>
           }
           </TabList>
         <TabPanel>
