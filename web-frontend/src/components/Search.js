@@ -18,8 +18,7 @@ class Search extends PureComponent {
         <SearchBox onSearch={searchTerm => this.onSearch(searchTerm)}/>
         <SearchResults
           ref={resultsBox => this.resultsBox = resultsBox}
-          canWrite={this.props.canWrite}
-          onCreateAIP={sip => this.props.onCreateAIP(sip)}/>
+          canWrite={this.props.canWrite}/>
       </div>
     );
   } // render

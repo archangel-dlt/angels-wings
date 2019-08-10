@@ -8,7 +8,6 @@ import './App.css';
 import { ArchangelDriver, ArchangelProviderPicker } from './lib';
 import Search from './components/Search';
 import CreateSIP from './components/CreateSIP';
-import CreateAIP from './components/CreateAIP';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -74,20 +73,10 @@ class Body extends Component {
         <TabPanel>
           <Search
             driver={driver}
-            canWrite={this.state.canWrite}
-            onCreateAIP={sip => this.setState({ tabIndex: 2, sip: Object.assign({}, sip) })}/>
+            canWrite={this.state.canWrite}/>
         </TabPanel>
         { this.state.canWrite &&
           <TabPanel><CreateSIP driver={driver}/></TabPanel>
-        }
-        { this.state.sip &&
-          <TabPanel>
-            <CreateAIP
-              driver={driver}
-              sip={this.state.sip}
-              onSubmit={() => this.setState({ tabIndex: 0, sip: null })}
-            />
-          </TabPanel>
         }
       </Tabs>
     )
