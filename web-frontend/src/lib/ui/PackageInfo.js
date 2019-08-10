@@ -103,12 +103,6 @@ const sipFields = [
   { title: 'Held By', field: held }
 ];
 
-const aipFields = [
-  { title: 'Catalogue Reference', field: citation, length: 'small' },
-  { title: '--' },
-  ...sipFields
-]
-
 class SipInfo extends PackageFields {
   constructor(props) {
     super(props, sipFields);
@@ -117,18 +111,8 @@ class SipInfo extends PackageFields {
   }
 }
 
-class AipInfo extends PackageFields {
-  constructor(props) {
-    super(props, aipFields);
-    this[key] = this.props.initialData[key]
-    this[pack] = 'aip';
-  }
-}
-
 function PackageInfo({ initialData }) {
-  if (initialData.pack === 'aip')
-    return (<AipInfo initialData={initialData} readonly={true} display={true}/>)
   return (<SipInfo initialData={initialData} readonly={true} display={true}/>)
 }
 
-export { SipInfo, AipInfo, PackageInfo };
+export { SipInfo, PackageInfo };
