@@ -1,0 +1,40 @@
+{
+  "name": "@archangeldlt/angels-wings",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "lodash.clonedeep": "^4.5.0",
+    "luxon": "^1.17.2",
+    "react": "^16.2.0",
+    "react-collapsible": "^2.3.1",
+    "react-data-grid": "^4.0.7",
+    "react-dom": "^16.2.0",
+    "react-dropzone": "^4.2.13",
+    "react-scripts": "2.0.0-next.b2fd8db8",
+    "react-tabs": "2.1.1",
+    "react-toastify": "^4.3.1",
+    "superagent": "^3.8.3",
+    "uuid": "^3.3.2",
+    "web3": "0.20.6"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "development": [
+      "last 2 chrome versions",
+      "last 2 firefox versions",
+      "last 2 edge versions"
+    ],
+    "production": [
+      ">1%",
+      "last 4 versions",
+      "Firefox ESR",
+      "not ie < 11"
+    ]
+  },
+  "homepage": "."
+}

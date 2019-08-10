@@ -1,0 +1,86 @@
+.App {
+}
+
+.App-logo {
+  animation-name: App-logo-spin;
+  animation-iteration-count: 1;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 130px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 2em;
+}
+
+.App-body {
+  font-size: large;
+  margin: 20px;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.react-tabs__tab {
+  display: inline-block;
+  border: 1px solid #aaaaaa;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  position: relative;
+  list-style: none;
+  padding: 6px 12px;
+  cursor: pointer
+}
+
+.react-tabs__tab--selected {
+  background: #fff;
+  color: black;
+  border: 2px solid #aaaaaa;
+  border-bottom: none;
+}
+
+.Collapsible__trigger {
+  display: block;
+  font-weight: 400;
+  text-decoration: none;
+  position: relative;
+  border: 1px solid white;
+  padding: 10px;
+}
+
+.Collapsible__trigger:after {
+  font-family: 'FontAwesome';
+  content: '\f107';
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  display: block;
+  transition: transform 300ms;
+}
+
+.Collapsible__trigger.is-open:after {
+  font-family: 'FontAwesome';
+  content: '\f107';
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  display: block;
+  transition: transform 300ms;
+  transform: rotateZ(180deg);
+}
+
+.SearchResult {
+  border: 1px solid #aaaaaa;
+  margin-bottom: 10px;
+}
+
+
