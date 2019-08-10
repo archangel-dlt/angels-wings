@@ -16,8 +16,7 @@ function Logo() {
   return (
     <div>
       <img src={logo} className='App-logo float-left' alt='logo' />
-      <h1 className='App-title'>Archangel-DLT</h1>
-      <p>For all your long term archive validation needs ...</p>
+      <h1 className='App-title'>Archangel - Angel's Wings</h1>
     </div>
   );
 } // Logo
