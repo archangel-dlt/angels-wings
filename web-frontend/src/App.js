@@ -7,7 +7,7 @@ import './App.css';
 
 import { ArchangelDriver, ArchangelProviderPicker } from './lib';
 import Search from './components/Search';
-import CreateSIP from './components/CreateSIP';
+import CreatePhoto from './components/CreatePhoto';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -76,7 +76,7 @@ class Body extends Component {
             canWrite={this.state.canWrite}/>
         </TabPanel>
         { this.state.canWrite &&
-          <TabPanel><CreateSIP driver={driver}/></TabPanel>
+          <TabPanel><CreatePhoto driver={driver}/></TabPanel>
         }
       </Tabs>
     )

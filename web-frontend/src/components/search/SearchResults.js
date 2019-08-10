@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Collapsible from 'react-collapsible';
-import { PackageInfo, FileList } from '../../lib';
+import { PackageInfo } from '../../lib';
 
 function SearchResult({ record }) {
   const noOfFiles = record.files ? record.files.length : 0
@@ -8,7 +8,6 @@ function SearchResult({ record }) {
   return (
     <Fragment>
       <PackageInfo initialData={record.data}/>
-      <FileList files={record.files} showPath={record.hasFilenames} showUuid={record.hasUuid}/>
       <div className='container-fluid'>
         <div className='row'>
           <div className='col-6 offset-2'>Contains {noOfFiles} file{noOfFiles > 1 ? 's' : '' }.</div>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import superagent from 'superagent';
-import { FileList } from '../../lib';
 import { toast } from 'react-toastify';
 
 class UploadBox extends Component {
@@ -13,7 +12,6 @@ class UploadBox extends Component {
     };
   } // constructor
 
-  get onIncludeFilenames() { return this.props.onIncludeFilenames }
   get onFiles() { return this.props.onFiles; }
   get files() { return this.state.payload; }
 
@@ -28,7 +26,7 @@ class UploadBox extends Component {
     this.onFiles(null);
     this.disableUpload();
 
-    const toastId = toast(`Sending '${file.name}' to Angel's Wings for characterization ...`, { autoClose: 12000 });
+    const toastId = toast(`Sending '${file.name}' to Angel's Wings for fingerprinting ...`, { autoClose: 12000 });
 
     try {
       const response = await superagent
@@ -40,11 +38,10 @@ class UploadBox extends Component {
       this.fileCharacterised(response.body);
     } catch (err) {
       toast.dismiss(toastId);
-      toast.error(`Could not characterize ${file.name} : ${err.message}`);
+      toast.error(`Could not fingerprint ${file.name} : ${err.message}`);
     }
 
     this.onFiles(this.state.payload);
-    this.onIncludeFilenames(this.state.includeFilenames)
     this.enableUpload();
   } // handleFileDrop
 
@@ -69,9 +66,6 @@ class UploadBox extends Component {
                     className="form-control btn btn-secondary col-md-2">
             Add Image
           </Dropzone>
-        </div>
-        <div className="row">
-          <FileList files={this.state.payload} showPath={true} showUuid={true}/>
         </div>
       </div>
     )
