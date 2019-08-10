@@ -1,0 +1,27 @@
+task install(type: Exec) {
+  commandLine 'yarn', 'install'
+}
+
+task build(type: Exec,
+           dependsOn: [install]) {
+  group 'Front End'
+  description 'Build production front-end application'
+
+  commandLine 'yarn', 'build'
+}
+
+task start(type: Exec,
+           dependsOn: [install]) {
+  group 'Front End'
+  description 'Start server'
+
+  commandLine 'yarn', 'start'
+}
+
+task clean(type: Delete) {
+  group 'Front End'
+  description 'Cleans up'
+
+  delete 'build'
+  delete 'node_modules'
+}
