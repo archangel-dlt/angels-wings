@@ -8,7 +8,6 @@ class UploadBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      includeFilenames: true,
       disableUpload: false,
       payload: [ ]
     };
@@ -25,28 +24,24 @@ class UploadBox extends Component {
     })
   }
 
-  async handleFileDrop(files) {
+  async handleFileDrop(file) {
     this.onFiles(null);
     this.disableUpload();
 
-    let c = 0;
-    for(const file of files) {
-      const prefix = `File ${++c} of ${files.length}: `;
-      const toastId = toast(`${prefix}Sending '${file.name}' to DROID for characterization ...`, { autoClose: 12000 });
+    const toastId = toast(`Sending '${file.name}' to Angel's Wings for characterization ...`, { autoClose: 12000 });
 
-      try {
-        const response = await superagent
-          .post('upload')
-          .field('lastModified', file.lastModified)
-          .attach('candidate', file)
+    try {
+      const response = await superagent
+        .post('fingerprint')
+        .field('lastModified', file.lastModified)
+        .attach('candidate', file)
 
-        toast.update(toastId, { render: `${prefix}${file.name} characterized`, autoClose: 5000 });
-        this.fileCharacterised(response.body);
-      } catch (err) {
-        toast.dismiss(toastId);
-        toast.error(`${prefix}Could not characterize ${file.name} : ${err.message}`);
-      }
-    } // for ...
+      toast.update(toastId, { render: `${file.name} characterized`, autoClose: 5000 });
+      this.fileCharacterised(response.body);
+    } catch (err) {
+      toast.dismiss(toastId);
+      toast.error(`Could not characterize ${file.name} : ${err.message}`);
+    }
 
     this.onFiles(this.state.payload);
     this.onIncludeFilenames(this.state.includeFilenames)
@@ -56,60 +51,27 @@ class UploadBox extends Component {
   disableUpload() { this.setState({'disableUpload': true}); }
   enableUpload() { this.setState({'disableUpload': false}); }
 
-  fileCharacterised(droidInfo) {
-    const json = droidInfo.map(info => {
-      const j = {
-        path: info.PATH,
-        name: info.NAME,
-        puid: info.PUID,
-        sha256_hash: info.SHA256_HASH,
-        size: info.SIZE,
-        type: info.TYPE,
-        uuid: info.UUID
-      };
-
-      if (info.LAST_MODIFIED)
-        j.last_modified = info.LAST_MODIFIED;
-      if (info.PARENT_ID)
-        j.parent_sha256_hash = info.PARENT_SHA256_HASH;
-
-      return j;
-    })
-
-    const payload = this.state.payload;
-    payload.push(...json);
+  fileCharacterised(imageHash) {
+    const payload = imageHash;
     this.setState({
       'payload': payload
     })
   } // fileCharacterised
 
-  toggleIncludeFilenames(enabled) {
-    this.setState({
-      'includeFilenames': enabled
-    })
-  } // toggleIncludeFilenames
-
   render() {
     return (
       <div className="container-fluid">
         <div className={"row " + ((this.props.readonly || this.state.external) ? 'd-none' : '')}>
-          <Dropzone onDrop={files => this.handleFileDrop(files)}
+          <Dropzone onDrop={files => this.handleFileDrop(files[0])}
                     disabled={this.state.disableUpload}
                     disabledClassName="disabled"
+                    multiple={false}
                     className="form-control btn btn-secondary col-md-2">
-            Add Files
+            Add Image
           </Dropzone>
         </div>
-        <div className="offset-md-10 col-md-2">
-          <input name="includeFilenames"
-                 type="checkbox"
-                 enabled={(!this.props.readonly).toString()}
-                 checked={this.state.includeFilenames}
-                 onChange={evt => this.toggleIncludeFilenames(evt.checked)}/>
-          <label>&nbsp;&nbsp;Include filenames</label>
-        </div>
         <div className="row">
-          <FileList files={this.state.payload} showPath={!this.props.readonly || this.state.includeFilenames} showUuid={true}/>
+          <FileList files={this.state.payload} showPath={true} showUuid={true}/>
         </div>
       </div>
     )

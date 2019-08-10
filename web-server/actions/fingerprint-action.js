@@ -2,7 +2,7 @@ const fs = require('fs').promises;
 const fingerprintPhoto = require('./fingerprint-photo');
 
 async function fingerprint(req, res) {
-  const photo = req.files.photo;
+  const photo = req.files.candidate;
 
   try {
     if (!photo.name)
