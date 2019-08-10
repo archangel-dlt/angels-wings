@@ -16,7 +16,7 @@ const photoFields = [
   { title: 'Rights Statement', field: rights },
 ];
 
-class SipInfo extends PackageFields {
+class PhotoPackage extends PackageFields {
   constructor(props) {
     super(props, photoFields);
     this[Required.key] = uuid();
@@ -24,4 +24,4 @@ class SipInfo extends PackageFields {
   }
 }
 
-export default SipInfo;
+export default PhotoPackage;

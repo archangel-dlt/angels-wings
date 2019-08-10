@@ -75,8 +75,6 @@ class ArchangelEthereumDriver {
   } // loadContract
 
   watchEvents(callback) {
-    console.log("watchEvents");
-
     this.eventCallbacks_.push(callback);
   } // watchEvents
 

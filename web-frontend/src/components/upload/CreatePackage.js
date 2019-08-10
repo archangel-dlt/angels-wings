@@ -3,12 +3,12 @@ import { DateTime } from 'luxon';
 import { toast } from 'react-toastify'
 
 class CreatePackage extends Component {
-  constructor(props, files = null, data = null) {
+  constructor(props, fingerprint = null, data = null) {
     super(props);
 
     this.state = {
       step: 'creating',
-      files: files,
+      fingerprint: fingerprint,
       data: data,
       count: 0
     }
@@ -20,13 +20,13 @@ class CreatePackage extends Component {
   } // reset
   get count() { return this.state.count; }
 
-  onData(data) { this.updateCanCreate(data, this.state.files); }
-  onFiles(files) { this.updateCanCreate(this.state.data, files); }
-  updateCanCreate(data, files) {
-    const ready = (data !== null && files !== null)
+  onData(data) { this.updateCanCreate(data, this.state.fingerprint); }
+  onFiles(fingerprint) { this.updateCanCreate(this.state.data, fingerprint); }
+  updateCanCreate(data, fingerprint) {
+    const ready = (data !== null && fingerprint !== null)
     this.setState({
       data,
-      files,
+      fingerprint,
       step: ready ? 'canCreate' : 'creating'
     });
   } // updateCanCreate
@@ -40,11 +40,11 @@ class CreatePackage extends Component {
 
   upload() {
     const timestamp = DateTime.utc().toFormat('yyyy-MM-dd\'T\'HH:mm:ssZZ');
-    const { data, files } = this.state;
+    const { data, fingerprint } = this.state;
 
-    const payload = this.preparePayload(timestamp, data, files);
+    const payload = this.preparePayload(timestamp, data, fingerprint);
 
-    this.props.driver.store(data.key, payload)
+    /*this.props.driver.store(data.key, payload)
       .transaction(() => { toast(`${this.type} submitted`); this.reset(); })
       .then(() => toast.success(`${this.type} written to blockchain`))
       .catch(err => {
@@ -52,6 +52,8 @@ class CreatePackage extends Component {
         if (this.isConfirming)
           this.setState({ step: 'canConfirm' });
       });
+     */
+    alert(JSON.stringify(payload));
   } // upload
 
   get isCreating() { return (this.state.step === 'canCreate') || (this.state.step === 'creating') }

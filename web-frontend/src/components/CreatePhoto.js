@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import UploadBox from './upload/UploadBox';
-import { SipInfo } from '../lib';
+import { PhotoPackage } from '../lib';
 import CreatePackage from './upload/CreatePackage';
 
 class CreatePhoto extends CreatePackage {
@@ -8,12 +8,13 @@ class CreatePhoto extends CreatePackage {
     super(props, [], null);
   } // constructor
 
-  get type() { return 'PHOTO'; }
+  get type() { return 'Fingerprint'; }
 
-  preparePayload(timestamp, data, files) {
+  preparePayload(timestamp, data, fingerprint) {
     const payload = {
       data,
-      files,
+      fingerprint: fingerprint.fingerprint,
+      filename: fingerprint.filename,
       timestamp
     };
 
@@ -26,16 +27,20 @@ class CreatePhoto extends CreatePackage {
         <div className={`container-fluid`}>
           <div className='row'>
             <div className='col form-control'>
-              <strong>Photo</strong> - { this.sipInfo && this.sipInfo.key }
+              <strong>Photo</strong> - { this.packageInfo && this.packageInfo.key }
             </div>
           </div>
         </div>
         <p/>
-        <SipInfo key={`sip-${this.count}`}
+        <PhotoPackage key={`photo-${this.count}`}
                  onData={data => this.onData(data)}
                  readonly={this.isConfirming}
-                 ref={sipInfo => this.sipInfo = sipInfo}
+                 ref={packageInfo => this.packageInfo = packageInfo}
         />
+        {
+          this.packageInfo && this.packageInfo.fingerprint && <p>Image Loaded</p>
+        }
+
         <hr/>
         <UploadBox key={`files-${this.count}`}
                    onFiles={files => this.onFiles(files)}

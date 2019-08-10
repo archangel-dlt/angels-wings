@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import Collapsible from 'react-collapsible';
-import { PackageInfo } from '../../lib';
+import { PhotoPackage } from '../../lib';
 
 function SearchResult({ record }) {
   const noOfFiles = record.files ? record.files.length : 0
 
   return (
     <Fragment>
-      <PackageInfo initialData={record.data}/>
+      <PhotoPackage initialData={record.data}/>
       <div className='container-fluid'>
         <div className='row'>
           <div className='col-6 offset-2'>Contains {noOfFiles} file{noOfFiles > 1 ? 's' : '' }.</div>

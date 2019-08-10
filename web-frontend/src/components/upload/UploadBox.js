@@ -35,7 +35,7 @@ class UploadBox extends Component {
         .attach('candidate', file)
 
       toast.update(toastId, { render: `${file.name} characterized`, autoClose: 5000 });
-      this.fileCharacterised(response.body);
+      this.fileCharacterised(file.name, response.body);
     } catch (err) {
       toast.dismiss(toastId);
       toast.error(`Could not fingerprint ${file.name} : ${err.message}`);
@@ -48,8 +48,11 @@ class UploadBox extends Component {
   disableUpload() { this.setState({'disableUpload': true}); }
   enableUpload() { this.setState({'disableUpload': false}); }
 
-  fileCharacterised(imageHash) {
-    const payload = imageHash;
+  fileCharacterised(name,imageHash) {
+    const payload = {
+      fingerprint: imageHash,
+      filename: name
+    };
     this.setState({
       'payload': payload
     })
