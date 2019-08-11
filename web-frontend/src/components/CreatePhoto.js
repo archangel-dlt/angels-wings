@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import UploadBox from './upload/UploadBox';
-import { PhotoPackage } from '../lib';
+import PhotoPackage from './ui/PhotoPackage';
 import CreatePackage from './upload/CreatePackage';
 
 class CreatePhoto extends CreatePackage {

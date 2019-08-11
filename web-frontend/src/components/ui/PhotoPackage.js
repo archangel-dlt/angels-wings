@@ -22,11 +22,11 @@ const photoFields = [
 ];
 
 class PhotoPackage extends PureComponent {
-  constructor(props, fields) {
+  constructor(props) {
     super(props);
     this[key] = uuid();
     this[pack] = 'photo';
-    this.fields = cloneDeep(fields);
+    this.fields = cloneDeep(photoFields);
 
     if (this.props.initialData)
       this.fieldNames.forEach(name => this[name] = this.props.initialData[name]);

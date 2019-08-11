@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Field } from '../../lib';
+import Field  from '../ui/Field';
 
 class SearchBox extends Component {
   constructor(props) {

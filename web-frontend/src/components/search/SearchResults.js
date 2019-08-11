@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Collapsible from 'react-collapsible';
-import { PhotoPackage } from '../../lib';
+import PhotoPackage from '../ui/PhotoPackage';
 
 function SearchResult({ record }) {
   const noOfFiles = record.files ? record.files.length : 0
