@@ -1,14 +1,31 @@
 import React, {Fragment, PureComponent} from 'react';
 import Field from './Field';
 import cloneDeep from 'lodash.clonedeep';
+import uuid from "uuid/v1";
 
 const key = 'key';
 const pack = 'pack';
 const title = 'title';
+const description = 'description';
+const supplier = 'supplier';
+const creator = 'creator';
+const rights = 'rights';
 
-class PackageFields extends PureComponent {
+const photoFields = [
+  { title: 'Title', field: title },
+  { title: 'Description', field: description },
+  { title: '--'},
+  { title: 'Supplier', field: supplier },
+  { title: 'Creator', field: creator },
+  { title: '--' },
+  { title: 'Rights Statement', field: rights },
+];
+
+class PhotoPackage extends PureComponent {
   constructor(props, fields) {
     super(props);
+    this[key] = uuid();
+    this[pack] = 'photo';
     this.fields = cloneDeep(fields);
 
     if (this.props.initialData)
@@ -83,11 +100,6 @@ class PackageFields extends PureComponent {
       { this.renderFields() }
     </Fragment>)
   }
-} // Class PackageFields
+} // class PhotoPackage
 
-const Required = {
-  title,
-  key,
-  pack
-}
-export { PackageFields, Required }
+export default PhotoPackage;
