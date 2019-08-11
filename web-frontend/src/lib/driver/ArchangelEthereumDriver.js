@@ -27,6 +27,19 @@ const Network = {
 
 const NullId = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
+function unwrapPayload(payload) {
+  try {
+    return JSON.parse(payload);
+  } catch (e) { }
+
+  try {
+    const expanded = LZString.decompressFromUTF16(payload);
+    return JSON.parse(expanded);
+  } catch (e) { }
+
+  throw new Error(`Bad payload : ${payload}`);
+}
+
 class ArchangelEthereumDriver {
   get resetEvent() { return "RESET"; }
   static get name() { return "Ethereum"; }
@@ -137,11 +150,11 @@ class ArchangelEthereumDriver {
     if (!payload)
       return [];
 
-    const results = [ JSON.parse(payload) ];
+    const results = [ unwrapPayload(payload) ];
 
     while (prev !== NullId) {
       [payload, prev] = await this.eth_fetchPrevious(prev);
-      results.push(JSON.parse(payload));
+      results.push(unwrapPayload(payload));
     }
 
     return results;
@@ -210,12 +223,13 @@ class ArchangelEthereumDriver {
         const payloads = logs
           .map(l => { l.uploader = this.addressName(l.args._addr); return l; })
           .map(l => {
-            const p = JSON.parse(l.args._payload);
+            const p = unwrapPayload(l.args._payload);
             p.key = l.args._key;
             p.addr = l.args._addr;
             p.uploader = l.uploader;
             return p;
-          });
+          })
+          .filter(p => p.data && (p.data.pack === 'photo'));
 
         return resolve(payloads);
       })
