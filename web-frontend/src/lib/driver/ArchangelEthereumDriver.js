@@ -1,4 +1,4 @@
-
+import LZString from 'lz-string';
 const ArchangelContract = require('./ethereum/Archangel.json')
 
 const Network = {
@@ -233,7 +233,7 @@ class ArchangelEthereumDriver {
 
   ////////////////////////
   eth_store(id, slug) {
-    const slugStr = JSON.stringify(slug);
+    const slugStr = LZString.compressToUTF16(JSON.stringify(slug));
 
     return new StorePromise(async (submitted, pResolve, pReject) => {
       const accounts = this.web3_.eth.accounts;

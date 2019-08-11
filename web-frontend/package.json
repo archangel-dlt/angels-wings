@@ -5,6 +5,7 @@
   "dependencies": {
     "lodash.clonedeep": "^4.5.0",
     "luxon": "^1.17.2",
+    "lz-string": "^1.4.4",
     "react": "^16.2.0",
     "react-collapsible": "^2.3.1",
     "react-data-grid": "^4.0.7",
