@@ -2,6 +2,7 @@ import React, { Fragment, Component } from 'react';
 import UploadBox from './upload/UploadBox';
 import PhotoPackage from './ui/PhotoPackage';
 import { DateTime } from "luxon";
+import { toast } from 'react-toastify';
 
 class CreatePhoto extends Component {
   constructor(props, fingerprint = [], data = null) {
@@ -23,18 +24,11 @@ class CreatePhoto extends Component {
   } // reset
   get count() { return this.state.count; }
 
-  preparePayload(timestamp, data, fingerprint) {
-    const payload = {
-      data,
-      fingerprint: fingerprint.fingerprint,
-      timestamp
-    };
-
-    return payload;
-  } // preparePayload
-
   onData(data) { this.updateCanCreate(data, this.state.fingerprint); }
-  onFiles(fingerprint) { this.updateCanCreate(this.state.data, fingerprint); }
+  onFingerprint(filename, fingerprint) {
+    this.packageInfo.update('filename', filename);
+    this.updateCanCreate(this.state.data, fingerprint);
+  }
   updateCanCreate(data, fingerprint) {
     const ready = (data !== null && fingerprint !== null)
     this.setState({
@@ -55,9 +49,13 @@ class CreatePhoto extends Component {
     const timestamp = DateTime.utc().toFormat('yyyy-MM-dd\'T\'HH:mm:ssZZ');
     const { data, fingerprint } = this.state;
 
-    const payload = this.preparePayload(timestamp, data, fingerprint);
+    const payload = {
+      data,
+      fingerprint,
+      timestamp
+    };
 
-    /*this.props.driver.store(data.key, payload)
+    this.props.driver.store(data.key, payload)
       .transaction(() => { toast(`${this.type} submitted`); this.reset(); })
       .then(() => toast.success(`${this.type} written to blockchain`))
       .catch(err => {
@@ -65,8 +63,6 @@ class CreatePhoto extends Component {
         if (this.isConfirming)
           this.setState({ step: 'canConfirm' });
       });
-     */
-    alert(JSON.stringify(payload));
   } // upload
 
   get isCreating() { return (this.state.step === 'canCreate') || (this.state.step === 'creating') }
@@ -90,13 +86,9 @@ class CreatePhoto extends Component {
                       readonly={this.isConfirming}
                       ref={packageInfo => this.packageInfo = packageInfo}
         />
-        {
-          this.packageInfo && this.packageInfo.fingerprint && <p>Image Loaded</p>
-        }
-
         <hr/>
         <UploadBox key={`files-${this.count}`}
-                   onFiles={files => this.onFiles(files)}
+                   onFingerprint={(filename, fingerprint) => this.onFingerprint(filename, fingerprint)}
                    readonly={this.isConfirming}
                    ref={upload => this.uploadBox = upload}
         />

@@ -1,24 +1,7 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
-class Field extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      value: this.props.initialValue || ''
-    }
-  } // constructor
-
-  setValue(value) {
-    this.handleChange({
-      target: {
-        value: value
-      }
-    })
-  }
-
+class Field extends PureComponent {
   handleChange(event) {
-    this.setState({value: event.target.value});
     if (this.props.onValue)
       this.props.onValue(event.target.value);
   } // handleChange
@@ -39,7 +22,7 @@ class Field extends Component {
             type='text'
             className={`form-control ${this.props.size === 'small' ? 'col-md-4' : 'col-md'}`}
             placeholder={this.props.placeholder}
-            value={this.state.value}
+            value={this.props.value}
             disabled={this.props.disabled}
             onChange={event => this.handleChange(event)}
             onKeyPress={event => this.handleKeyPress(event)}/>

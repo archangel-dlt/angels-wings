@@ -15,10 +15,12 @@ const photoFields = [
   { title: 'Title', field: title },
   { title: 'Description', field: description },
   { title: '--'},
-  { title: 'Supplier', field: supplier },
-  { title: 'Creator', field: creator },
+  { title: 'Supplier', field: supplier, optional: true },
+  { title: 'Creator', field: creator, optional: true },
   { title: '--' },
-  { title: 'Rights Statement', field: rights },
+  { title: 'Rights Statement', field: rights, optional: true },
+  { title: '--' },
+  { title: 'Filename', field: 'filename', readonly: true }
 ];
 
 class PhotoPackage extends PureComponent {
@@ -43,8 +45,9 @@ class PhotoPackage extends PureComponent {
   get onData() { return this.props.onData; }
 
   get fieldNames() { return this.fields.filter(f => !!f.field).map(f => f.field) }
+  get mandatoryFieldNames() { return this.fields.filter(f => !!f.field).filter(f => !f.optional).map(f => f.field) }
   get dataReady() {
-    return this.fieldNames.reduce((acc, name) => acc && !!this[name], true)
+    return this.mandatoryFieldNames.reduce((acc, name) => acc && !!this[name], true);
   } // get
 
   get data() {
@@ -80,7 +83,8 @@ class PhotoPackage extends PureComponent {
       if (field.title === '--')
         return (<br key={i}/>)
 
-      const value = this.props.initialData ? this.props.initialData[field.field] : null
+      const initialData = this.props.initialData ? this.props.initialData[field.field] : null;
+      const value = this[field.field] ? this[field.field] : initialData;
 
       return (
         <Field
@@ -89,8 +93,8 @@ class PhotoPackage extends PureComponent {
           size={field.length}
           onValue={v => this.update(field.field, v)}
           ref={f => this[`${field.field}-field`] = f}
-          disabled={this.props.readonly}
-          initialValue={value}/>
+          disabled={this.props.readonly || field.readonly}
+          value={value}/>
       )
     });
   } // renderFields
