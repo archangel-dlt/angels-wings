@@ -104,7 +104,6 @@ class ArchangelEthereumDriver {
 
   watchGrantPermissions() {
     stopWatching(this.grantsWatcher, 'GrantPermission')
-    stopWatching(this.revokeWatcher, 'RevokePermission')
 
     this.grantsWatcher = this.contract_.PermissionGranted(
       { },
@@ -348,45 +347,6 @@ class ArchangelEthereumDriver {
         });
     }); // eth_fetch
   } // eth_call_fetch
-
-  eth_grant(addr, name) {
-    const account = this.account()
-    if (!account)
-      throw new Error('No Ethereum account available.  Have you unlocked MetaMask?')
-
-    this.contract_.grantPermission(
-      addr,
-      name,
-      {
-        from: account,
-        gas: 500000
-      },
-      (err, tx) => {
-        if (err)
-          return console.log(err)
-        console.log(`eth_grant(${addr},${name}) submitted in transaction ${tx}`);
-      }
-    );
-  } // eth_store
-
-  eth_remove(addr) {
-    const account = this.account()
-    if (!account)
-      throw new Error('No Ethereum account available.  Have you unlocked MetaMask?')
-
-    this.contract_.removePermission(
-      addr,
-      {
-        from: account,
-        gas: 500000
-      },
-      (err, tx) => {
-        if (err)
-          return console.log(err)
-        console.log(`eth_remove(${addr}) submitted in transaction ${tx}`);
-      }
-    );
-  } // eth_remove
 
   currentBlockNumber() {
     return new Promise((resolve, reject) => {
