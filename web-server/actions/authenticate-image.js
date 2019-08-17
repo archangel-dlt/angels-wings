@@ -1,5 +1,42 @@
+const fs = require('fs');
+const axios = require('axios');
+const path = require('path');
+const os = require('os');
+const tempFilename = require('express-fileupload/lib/utilities').getTempFilename;
+
 async function authenticate(req, res) {
-  res.json({ authentic: true });
+  const imageUrl = req.query.url;
+  if (!imageUrl)
+    return res.status(400).send('No file uploaded');
+
+  let imagePath = null;
+  try {
+    imagePath = await downloadImage(imageUrl);
+    console.log(imagePath)
+    res.json({authentic: false});
+  } finally {
+    if (imagePath)
+      fs.promises.unlink(imagePath);
+  }
+}
+
+async function downloadImage(imageUrl) {
+  const imageFilePath = path.join(os.tmpdir(), tempFilename('aw'));
+  const writer = fs.createWriteStream(imageFilePath);
+
+  const response = await axios({
+    url: imageUrl,
+    method: 'GET',
+    responseType: 'stream'
+  });
+  response.data.pipe(writer);
+
+  await new Promise((resolve, reject) => {
+    writer.on('finish', resolve)
+    writer.on('error', reject)
+  })
+
+  return imageFilePath;
 }
 
 module.exports = authenticate
