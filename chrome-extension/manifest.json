@@ -12,13 +12,23 @@
 				"<all_urls>"
 			],
 			"js": [
-				"scripts/jquery-3.4.1.min.js", "scripts/content.js"
+				"scripts/jquery-3.4.1.min.js",
+        "scripts/content.js"
 			],
 			"css": [
 				"styles/styles.css"
 			]
 		}
 	],
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
+  },
+  "permissions": [
+    "http://localhost:3000/authenticate"
+  ],
 	"web_accessible_resources": [
 		"images/*"
 	]

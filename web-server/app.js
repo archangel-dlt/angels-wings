@@ -3,6 +3,7 @@ const fileUpload = require('express-fileupload');
 const path = require('path');
 const logger = require('morgan');
 const fingerprint = require('./actions/fingerprint-action');
+const authenticate = require('./actions/authenticate-image');
 
 const app = express();
 
@@ -18,6 +19,8 @@ app.use(fileUpload({
 
 app.get('/', (req, res) => res.redirect(301, '/index.html'));
 app.use(express.static(path.join(__dirname, 'static')));
+
 app.post('/fingerprint', fingerprint);
+app.get('/authenticate', authenticate);
 
 module.exports = app;

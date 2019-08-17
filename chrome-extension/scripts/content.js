@@ -7,24 +7,36 @@ const NotAuthenticated = "<div class='archangel-not-authenticated'></div>";
 
 angelsWings();
 
-async function angelsWings() {
-	let images = gatherImages();
-	images = await authenticateImages(images);
-	console.log(images);
-	images.forEach(image => {
-		image.element.wrap(image.authentic
-			? Authenticated
-			: NotAuthenticated
-		);
-	});
+function angelsWings() {
+  $(window).on("load", () => {
+    const images = gatherImages();
+    authenticateImages(images);
+  });
 } // angelsWings
 
 ////////////////////////////////
-async function authenticateImages(images) {
-	const l = images.length;
-	for (let i = 0; i != l; ++i)
-		images[i].authentic = (i%2 === 0);
-	return images;
+function authenticateImages(images) {
+  images.forEach(authenticateImage)
+}
+
+function authenticateImage(image) {
+  chrome.runtime.sendMessage(
+    image.src,
+    function (data) {
+      image.data = data;
+      markImage(image, data.authentic);
+    }
+  );
+}
+
+function markImage(image, isAuthentic) {
+  if (isAuthentic == 'error')
+    return;
+
+  image.element.wrap(isAuthentic
+    ? Authenticated
+    : NotAuthenticated
+  );
 }
 
 function gatherImages() {
@@ -54,6 +66,7 @@ function absolutiseImageSrc(image) {
 	const src = image.attr('src');
 	if (!src)
 		return;
+
 	// embedded images - ignore
 	if (src.startsWith('data:'))
 		return null;
