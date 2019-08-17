@@ -38,19 +38,27 @@ function markImage(image, isAuthentic) {
   // where the image is wrapped in a div and is the sole child,
   // modify the div style directly - works best on a lot of news sites
   const parent = image.element.parent();
-  if ((parent.children().length == 1) &&
-      (parent.is("div"))) {
-    parent.addClass(isAuthentic
-      ? AuthenticatedClass
-      : NotAuthenticatedClass
-    );
+  if (parent.is("picture")) {  // The Guardian!
+    const grandparent = parent.parent();
+    if (grandparent.children().length == 1)
+      style(grandparent, isAuthentic);
     return;
   }
 
-  image.element.wrap(isAuthentic
-    ? AuthenticatedWrapper
-    : NotAuthenticatedWrapper
-  );
+  if ((parent.is("div") && parent.children().length == 1)) {
+    style(parent, isAuthentic);
+    return;
+  }
+
+  wrap(image.element, isAuthentic);
+}
+
+function style(elem, isAuthentic) {
+  elem.addClass(isAuthentic ? AuthenticatedClass : NotAuthenticatedClass);
+}
+
+function wrap(elem, isAuthentic) {
+  elem.wrap(isAuthentic ? AuthenticatedWrapper : NotAuthenticatedWrapper);
 }
 
 function gatherImages() {
