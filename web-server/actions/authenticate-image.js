@@ -3,6 +3,7 @@ const axios = require('axios');
 const path = require('path');
 const os = require('os');
 const tempFilename = require('express-fileupload/lib/utilities').getTempFilename;
+const fingerprintPhoto = require('./fingerprint-photo');
 
 async function authenticate(req, res) {
   const imageUrl = req.query.url;
@@ -12,7 +13,10 @@ async function authenticate(req, res) {
   let imagePath = null;
   try {
     imagePath = await downloadImage(imageUrl);
-    console.log(imagePath)
+
+    const fingerprint = await fingerprintPhoto(imagePath);
+
+    console.log(fingerprint)
     res.json({authentic: false});
   } finally {
     if (imagePath)
