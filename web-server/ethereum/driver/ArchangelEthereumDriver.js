@@ -66,7 +66,6 @@ class ArchangelEthereumDriver {
 
     this.loadContract(this.network.id);
 
-    this.startWatching();
     this.watchRegistrations();
     this.watchGrantPermissions();
   } // setup
@@ -96,14 +95,6 @@ class ArchangelEthereumDriver {
     this.eventCallbacks_.push(callback);
   } // watchEvents
 
-  startWatching() {
-    this.watcher_ = this.contract_.allEvents(
-      { fromBlock: this.fromBlock },
-      // eslint-disable-next-line
-      (err, event) => this.eventCallbacks_.forEach(fn => fn(event))
-    );
-  } // startWatching
-
   watchRegistrations() {
     stopWatching(this.registrations, 'Registration');
     stopWatching(this.updates, 'Updates');
@@ -111,12 +102,12 @@ class ArchangelEthereumDriver {
     this.registrations = this.contract_.Registration(
       { },
       { fromBlock: this.fromBlock },
-      () => { }
+      (err, event) => this.unpackRegistration(event)
     );
     this.updates = this.contract_.Update(
       { },
       { fromBlock: this.fromBlock },
-      () => { }
+      (err, event) => this.unpackRegistration(event)
     );
   } // watchRegistrations
 
@@ -140,26 +131,21 @@ class ArchangelEthereumDriver {
   } // addressName
 
   ////////////////////////////////////////////
-  recordLog(watcher) {
-    return new Promise((resolve, reject) => {
-      watcher.get((error, logs) => {
-        if (error)
-          return reject(error);
+  unpackRegistration(r) {
+    const p = unwrapPayload(r.args._payload);
+    if (!(p.data && (p.data.pack === 'photo')))
+      return;
 
-        const payloads = logs
-          .map(l => { l.uploader = this.addressName(l.args._addr); return l; })
-          .map(l => {
-            const p = unwrapPayload(l.args._payload);
-            p.key = l.args._key;
-            p.addr = l.args._addr;
-            p.uploader = l.uploader;
-            return p;
-          })
-          .filter(p => p.data && (p.data.pack === 'photo'));
+    const unwrapped = {
+      blockNumber: r.blockNumber,
+      uploader: this.addressName(r.args._addr),
+      txIndex: r.transactionIndex,
+      event: r.event,
+      key: r.key,
+      payload: p
+    };
 
-        return resolve(payloads);
-      })
-    });
+    this.eventCallbacks_.forEach(fn => fn(unwrapped));
   } // watcher
 
   async registrationLog() {
