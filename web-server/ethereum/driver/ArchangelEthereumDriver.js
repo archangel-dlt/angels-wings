@@ -45,14 +45,14 @@ class ArchangelEthereumDriver {
   get resetEvent() { return "RESET"; }
   static get name() { return "Ethereum"; }
 
-  constructor(web3) {
+  constructor(web3, eventCallback = () => {}) {
     if (typeof web3 === 'string') {
       const provider = new Web3.providers.HttpProvider(web3);
       web3 = new Web3(provider);
     }
     this.ready = this.setup(web3);
 
-    this.eventCallbacks_ = [ (event) => console.log(event) ];
+    this.eventCallbacks_ = [ eventCallback ];
   } // constructor
 
   //////////////////////////////////////////
