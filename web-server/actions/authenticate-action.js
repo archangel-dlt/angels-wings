@@ -4,6 +4,7 @@ const path = require('path');
 const os = require('os');
 const tempFilename = require('express-fileupload/lib/utilities').getTempFilename;
 const fingerprintPhoto = require('../imagehash/fingerprint-photo');
+const authenticatePhoto = require('../imagehash/authenticate-photo');
 
 async function authenticate(req, res) {
   const imageUrl = req.query.url;
@@ -16,8 +17,9 @@ async function authenticate(req, res) {
 
     const fingerprint = await fingerprintPhoto(imagePath);
 
-    console.log(fingerprint)
-    res.json({authentic: false});
+    const authInfo = await authenticatePhoto(fingerprint);
+
+    res.json(authInfo);
   } finally {
     if (imagePath)
       fs.promises.unlink(imagePath);
