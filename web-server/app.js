@@ -3,7 +3,7 @@ const fileUpload = require('express-fileupload');
 const path = require('path');
 const logger = require('morgan');
 const fingerprint = require('./actions/fingerprint-action');
-const authenticate = require('./actions/authenticate-image');
+const authenticate = require('./actions/authenticate-action');
 import StartAngelsWings from './ethereum/AngelsWings';
 
 const app = express();
