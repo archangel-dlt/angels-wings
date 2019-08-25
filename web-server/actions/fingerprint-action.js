@@ -1,5 +1,5 @@
 const fs = require('fs').promises;
-const fingerprintPhoto = require('./fingerprint-photo');
+const fingerprintPhoto = require('../imagehash/fingerprint-photo');
 
 async function fingerprint(req, res) {
   const photo = req.files.candidate;
