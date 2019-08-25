@@ -4,7 +4,7 @@ const path = require('path');
 const logger = require('morgan');
 const fingerprint = require('./actions/fingerprint-action');
 const authenticate = require('./actions/authenticate-action');
-import StartAngelsWings from './hashDB/AngelsWings';
+import { StartAngelsWings } from './hashDB/AngelsWings';
 
 const app = express();
 

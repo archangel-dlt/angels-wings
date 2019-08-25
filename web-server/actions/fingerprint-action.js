@@ -10,7 +10,7 @@ async function fingerprint(req, res) {
 
     const fingerprint = await fingerprintPhoto(photo.tempFilePath);
 
-    res.send(JSON.parse(fingerprint));
+    res.send(fingerprint);
   } catch (e) {
     res.status(500).send(`Fingerprinting failed: ${e.message}`);
   } finally {

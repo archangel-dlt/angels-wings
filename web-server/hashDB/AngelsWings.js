@@ -32,6 +32,14 @@ async function listFingerprintFiles() {
   );
 }
 
+async function* listFingerprints() {
+  const filePaths = await listFingerprintFiles();
+  for (const path of filePaths) {
+    const fingerprint = await fsp.readFile(path);
+    yield JSON.parse(fingerprint);
+  }
+}
+
 async function StartAngelsWings() {
   await setupDirectory();
 
@@ -41,4 +49,4 @@ async function StartAngelsWings() {
   );
 }
 
-export default StartAngelsWings;
+export { StartAngelsWings, listFingerprints }

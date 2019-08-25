@@ -7,7 +7,7 @@ const imageHasher = path.join(__dirname, '../../image-hash/image-hash.py');
 async function fingerprintPhoto(filename) {
   const fingerprintCmd = `${imageHasher} ${filename}`;
   const { stdout } = await exec(fingerprintCmd);
-  return stdout;
+  return JSON.parse(stdout);
 }
 
 module.exports = fingerprintPhoto;
