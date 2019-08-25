@@ -2,5 +2,7 @@
 .gradle
 node_modules
 package-lock.json
+yarn.lock
 __pycache__
 build
+fingerprints
