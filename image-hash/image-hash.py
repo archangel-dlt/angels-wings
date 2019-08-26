@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from extractor import Extractor
+from hasher.extractor import Extractor
 
 def printHash(img_hash):
   print('[')

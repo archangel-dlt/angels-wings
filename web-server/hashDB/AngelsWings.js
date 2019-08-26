@@ -2,10 +2,12 @@ import ArchangelEthereumDriver from './driver/ArchangelEthereumDriver';
 import path from 'path';
 import fs from 'fs';
 const fsp = fs.promises;
+import { Indexer } from './indexer'
 
 const ArchangelNetworkUrl = 'https://blockchain.surrey.ac.uk/ethereum';
 let angelsWings = null;
 const fingerprintPath = path.join('/tmp', 'fingerprints');
+const indexer = new Indexer(fingerprintPath);
 
 async function setupDirectory() {
   if (!fs.existsSync(fingerprintPath)) {
@@ -22,7 +24,7 @@ function saveFingerprint(payload) {
   const filePath = path.join(fingerprintPath, fileName);
 
   fsp.writeFile(filePath, JSON.stringify(payload));
-  console.log(`Written ${fileName}`);
+  indexer.trigger();
 }
 
 async function listFingerprintFiles() {
