@@ -1,9 +1,9 @@
-const express = require('express');
-const fileUpload = require('express-fileupload');
-const path = require('path');
-const logger = require('morgan');
-const fingerprint = require('./actions/fingerprint-action');
-const authenticate = require('./actions/authenticate-action');
+import express from 'express';
+import fileUpload from 'express-fileupload';
+import path from 'path';
+import logger from 'morgan';
+import { fingerprint } from './actions/fingerprint-action';
+import { authenticate} from './actions/authenticate-action'
 import { StartAngelsWings } from './hashDB/AngelsWings';
 
 const app = express();

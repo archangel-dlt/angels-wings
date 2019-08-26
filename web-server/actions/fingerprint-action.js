@@ -1,5 +1,5 @@
-const fs = require('fs').promises;
-const fingerprintPhoto = require('../imagehash/fingerprint-photo');
+import { promises as fs } from 'fs';
+import { fingerprintPhoto } from '../imagehash/fingerprint-photo';
 
 async function fingerprint(req, res) {
   const photo = req.files.candidate;
@@ -18,4 +18,4 @@ async function fingerprint(req, res) {
   }
 }
 
-module.exports = fingerprint
+export { fingerprint };

@@ -1,9 +1,9 @@
-const fs = require('fs');
-const axios = require('axios');
-const path = require('path');
-const os = require('os');
-const tempFilename = require('express-fileupload/lib/utilities').getTempFilename;
-import fingerprintPhoto from '../imagehash/fingerprint-photo';
+import fs from 'fs';
+import axios from 'axios';
+import path from 'path';
+import  os from 'os';
+import { getTempFilename as tempFilename } from 'express-fileupload/lib/utilities';
+import { fingerprintPhoto } from '../imagehash/fingerprint-photo';
 import { authenticatePhoto } from '../imagehash/authenticate-photo'
 
 async function authenticate(req, res) {
@@ -45,4 +45,4 @@ async function downloadImage(imageUrl) {
   return imageFilePath;
 }
 
-module.exports = authenticate
+export { authenticate };
