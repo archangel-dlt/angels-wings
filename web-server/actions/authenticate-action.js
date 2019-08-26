@@ -3,7 +3,6 @@ import axios from 'axios';
 import path from 'path';
 import  os from 'os';
 import { getTempFilename as tempFilename } from 'express-fileupload/lib/utilities';
-import { fingerprintPhoto } from '../imagehash/fingerprint-photo';
 import { authenticatePhoto } from '../imagehash/authenticate-photo'
 
 async function authenticate(req, res) {
@@ -15,9 +14,7 @@ async function authenticate(req, res) {
   try {
     imagePath = await downloadImage(imageUrl);
 
-    const fingerprint = await fingerprintPhoto(imagePath);
-
-    const authInfo = await authenticatePhoto(fingerprint);
+    const authInfo = await authenticatePhoto(imagePath);
 
     res.json(authInfo);
   } catch (e) {

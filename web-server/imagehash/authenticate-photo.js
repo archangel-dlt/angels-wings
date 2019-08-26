@@ -1,6 +1,9 @@
 import { listFingerprints } from '../hashDB/AngelsWings'
+import { fingerprintPhoto } from './fingerprint-photo'
 
-async function authenticatePhoto(fingerprint) {
+async function authenticatePhoto(imagePath) {
+  const fingerprint = await fingerprintPhoto(imagePath);
+
   for await (const fp of listFingerprints()) {
     if (fingerprintMatch(fingerprint, fp.payload.fingerprint)) {
       fp.authentic = true;
@@ -13,8 +16,8 @@ async function authenticatePhoto(fingerprint) {
 } // authenticatePhoto
 
 function fingerprintMatch(lhs, rhs) {
-  for (let i = 0; i !== lhs.length; ++i)
-    if (lhs[i] !== rhs[i])
+  for (let i = 0; i !== lhs.hash.length; ++i)
+    if (lhs.hash[i] !== rhs.hash[i])
       return false;
   return true;
 }

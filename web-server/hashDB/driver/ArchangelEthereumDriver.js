@@ -136,6 +136,13 @@ class ArchangelEthereumDriver {
     if (!(p.data && (p.data.pack === 'photo')))
       return;
 
+    if (Array.isArray(p.fingerprint)) {
+      p.fingerprint = {
+        hash: p.fingerprint,
+        threshold: 0
+      }
+    }
+
     const unwrapped = {
       blockNumber: r.blockNumber,
       uploader: this.addressName(r.args._addr),
