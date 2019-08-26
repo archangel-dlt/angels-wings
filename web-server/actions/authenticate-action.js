@@ -20,6 +20,8 @@ async function authenticate(req, res) {
     const authInfo = await authenticatePhoto(fingerprint);
 
     res.json(authInfo);
+  } catch (e) {
+    res.status(500).send(`Authenticating failed: ${e.message}`);
   } finally {
     if (imagePath)
       fs.promises.unlink(imagePath);
