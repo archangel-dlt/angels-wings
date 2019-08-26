@@ -3,8 +3,10 @@ const baseUrl = window.location.origin;
 const baseLocation = baseUrl + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')+1);
 
 const AuthenticatedClass = 'archangel-authenticated';
+const AuthenticatedInexactClass = 'archangel-authenticated-inexact';
 const NotAuthenticatedClass = 'archangel-not-authenticated';
 const AuthenticatedWrapper = `<div class='${AuthenticatedClass}'></div>`;
+const AuthenticatedInexactWrapper = `<div class='${AuthenticatedInexactClass}'></div>`;
 const NotAuthenticatedWrapper = `<div class='${NotAuthenticatedClass}'></div>`
 
 angelsWings();
@@ -26,12 +28,12 @@ function authenticateImage(image) {
     image.src,
     function (data) {
       image.data = data;
-      markImage(image, data.authentic);
+      markImage(image, data.authentic, data.exact);
     }
   );
 }
 
-function markImage(image, isAuthentic) {
+function markImage(image, isAuthentic, isExact) {
   if (isAuthentic == 'error')
     return;
 
@@ -41,24 +43,31 @@ function markImage(image, isAuthentic) {
   if (parent.is("picture")) {  // The Guardian!
     const grandparent = parent.parent();
     if (grandparent.children().length == 1)
-      style(grandparent, isAuthentic);
+      style(grandparent, isAuthentic, isExact);
     return;
   }
 
   if ((parent.is("div") && parent.children().length == 1)) {
-    style(parent, isAuthentic);
+    style(parent, isAuthentic, isExact);
     return;
   }
 
-  wrap(image.element, isAuthentic);
+  wrap(image.element, isAuthentic, isExact);
 }
 
-function style(elem, isAuthentic) {
-  elem.addClass(isAuthentic ? AuthenticatedClass : NotAuthenticatedClass);
+function style(elem, isAuthentic, isExact) {
+  let cls = NotAuthenticatedClass;
+  if (isAuthentic)
+    cls = isExact ? AuthenticatedClass : AuthenticatedInexactClass;
+
+  elem.addClass(cls);
 }
 
-function wrap(elem, isAuthentic) {
-  elem.wrap(isAuthentic ? AuthenticatedWrapper : NotAuthenticatedWrapper);
+function wrap(elem, isAuthentic, isExact) {
+  let cls = NotAuthenticatedWrapper;
+  if (isAuthentic)
+    cls = isExact ? AuthenticatedWrapper : AuthenticatedInexactWrapper;
+  elem.wrap(cls);
 }
 
 function gatherImages() {

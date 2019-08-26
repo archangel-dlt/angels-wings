@@ -29,17 +29,10 @@ function saveFingerprint(payload) {
 
 async function listFingerprintFiles() {
   const fileNames = await fsp.readdir(fingerprintPath);
-  return fileNames.map(
-    name => path.join(fingerprintPath, name)
-  );
-}
-
-async function* listFingerprints() {
-  const filePaths = await listFingerprintFiles();
-  for (const path of filePaths) {
-    const fingerprint = await fsp.readFile(path);
-    yield JSON.parse(fingerprint);
-  }
+  fileNames.sort();
+  return fileNames
+    .filter(name => name.endsWith('.json'))
+    .map(name => path.join(fingerprintPath, name));
 }
 
 async function StartAngelsWings() {
@@ -51,4 +44,4 @@ async function StartAngelsWings() {
   );
 }
 
-export { StartAngelsWings, listFingerprints }
+export { StartAngelsWings, listFingerprintFiles }

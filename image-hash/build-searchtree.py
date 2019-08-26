@@ -12,12 +12,12 @@ from sklearn.neighbors import NearestNeighbors as NN
 from hasher.database import JsonFilesReader as DatabaseReader
 
 if __name__ == '__main__':
-  image_path = sys.argv[1]
-  database_path = join(image_path, 'fingerprint.db')
+  fingerprints_path = sys.argv[1]
+  index_path = join(fingerprints_path, 'fingerprint.db')
 
-  db = DatabaseReader(image_path)
+  db = DatabaseReader(fingerprints_path)
   feats = db.get_hashes()
   nbrs = NN(1, algorithm='ball_tree').fit(feats)
-  with open(database_path, 'wb') as f:
+  with open(index_path, 'wb') as f:
     pickle.dump(nbrs, f)
-  print('Search index saved at %s' % database_path)
+  print('Search index saved at %s' % index_path)

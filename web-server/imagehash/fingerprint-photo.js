@@ -6,17 +6,30 @@ import path from 'path';
 const scriptPath = path.join(__dirname, '../../image-hash/');
 const imageHasher = path.join(scriptPath, 'image-hash.py');
 const reindexer = path.join(scriptPath, 'build-searchtree.py');
+const imageChecker = path.join(scriptPath, 'image-checker.py');
 
+async function runScript(script, ...args) {
+  const cmd = `${script} ${args.join(' ')}`
+  const { stdout } = await execp(cmd);
+  return stdout;
+}
 async function fingerprintPhoto(filename) {
-  const fingerprintCmd = `${imageHasher} ${filename}`;
-  const { stdout } = await execp(fingerprintCmd);
+  const fingerprint = await runScript(imageHasher, filename);
+  return JSON.parse(fingerprint);
+}
+
+function reindexFingerprints(fingerprintPath) {
+  runScript(reindexer, fingerprintPath)
+    .then(console.log)
+}
+
+async function checkPhoto(photoPath, fingerprintPath) {
+  const stdout = await runScript(
+    imageChecker,
+    photoPath,
+    fingerprintPath
+  );
   return JSON.parse(stdout);
 }
 
-async function reindexFingerprints(fingerprintPath) {
-  const reindexCmd = `${reindexer} ${fingerprintPath}`;
-  const {stdout} = await execp(reindexCmd);
-  console.log(stdout);
-}
-
-export { fingerprintPhoto, reindexFingerprints };
+export { fingerprintPhoto, reindexFingerprints, checkPhoto };
