@@ -81,11 +81,11 @@ function addPopup(elem, isAuthentic, isExact, data) {
   if (!isAuthentic)
     return;
 
-  let popup = isExact ? "" : "Similar to:";
-  popup += data.title ? `<br><strong>${data.title}</strong>` : "";
-  popup += data.description ? `<br>${data.description}` : "";
-  popup += data.supplier ? `<br>From <i>${data.supplier}</i>` : "";
-  popup += data.referenceUrl ? `<br><a href="${data.referenceUrl}">${data.referenceUrl}</a>` : "";
+  let popup = isExact ? "Exact match:" : "Similar to:";
+  popup += data.title ? `<br>&nbsp;&nbsp;<strong>${data.title}</strong>` : "";
+  popup += data.description ? `<br>&nbsp;&nbsp;${data.description}` : "";
+  popup += data.supplier ? `<br>&nbsp;&nbsp;From <i>${data.supplier}</i>` : "";
+  popup += data.referenceUrl ? `<br>&nbsp;&nbsp;<a href="${data.referenceUrl}">${data.referenceUrl}</a>` : "";
 
   elem
     .append(`<div class="archangel-tag">${popup}</div>`);
