@@ -20,8 +20,6 @@ function Logo() {
   );
 } // Logo
 
-const ethereumDriver = ArchangelDriver();
-
 class Body extends Component {
   constructor(props) {
     super(props);
@@ -36,8 +34,10 @@ class Body extends Component {
   get account() { return this.driver && this.state.driver.account(); }
 
   setDriver(driver) {
-    this.setState({ driver: driver });
+    if (driver == null)
+      return;
 
+    this.setState({ driver: driver });
     this.watchAccount();
   } // setDriver
 
@@ -81,6 +81,12 @@ class Body extends Component {
 } // Body
 
 class App extends Component {
+  constructor () {
+    super();
+    this.state = { };
+    ArchangelDriver().then(driver => this.setState({ ethereumDriver: driver }));
+  }
+
   render() {
     return (
       <div className='App'>
@@ -89,7 +95,7 @@ class App extends Component {
             <Logo/>
           </div>
           <div className='col-md-4'>
-            <ArchangelProviderPicker driver={ethereumDriver}/>
+            { this.renderPicker() }
           </div>
         </header>
         <div className='App-body container-fluid'>
@@ -98,7 +104,7 @@ class App extends Component {
               <Body
                 ref={ body => {
                   this.body = body;
-                  body.setDriver(ethereumDriver);
+                  body && body.setDriver(this.state.ethereumDriver);
                 } }
               />
               <ToastContainer
@@ -114,6 +120,12 @@ class App extends Component {
         </div>
       </div>
     );
+  }
+
+  renderPicker() {
+    if (!this.state.ethereumDriver)
+      return;
+    return (<ArchangelProviderPicker driver={this.state.ethereumDriver}/>);
   }
 }
 
