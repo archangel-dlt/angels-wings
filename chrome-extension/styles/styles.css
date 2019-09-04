@@ -55,5 +55,16 @@
 	opacity: 0.7;
 }
 
-
+.archangel-tag {
+  float: left;
+  position: absolute;
+  left: 80px;
+  top: 24px;
+  z-index: 1000;
+  background-color: #92AD40;
+  padding: 5px;
+  color: #FFFFFF;
+  font-weight: bold;
+  display: none;
+}
 

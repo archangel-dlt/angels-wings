@@ -9,10 +9,12 @@ const AuthenticatedWrapper = `<div class='${AuthenticatedClass}'></div>`;
 const AuthenticatedInexactWrapper = `<div class='${AuthenticatedInexactClass}'></div>`;
 const NotAuthenticatedWrapper = `<div class='${NotAuthenticatedClass}'></div>`
 
+jQuery.noConflict();
 angelsWings();
 
+
 function angelsWings() {
-  $(window).on("load", () => {
+  jQuery(window).on("load", () => {
     const images = gatherImages();
     authenticateImages(images);
   });
@@ -61,6 +63,7 @@ function style(elem, isAuthentic, isExact) {
     cls = isExact ? AuthenticatedClass : AuthenticatedInexactClass;
 
   elem.addClass(cls);
+  addPopup(elem);
 }
 
 function wrap(elem, isAuthentic, isExact) {
@@ -68,11 +71,21 @@ function wrap(elem, isAuthentic, isExact) {
   if (isAuthentic)
     cls = isExact ? AuthenticatedWrapper : AuthenticatedInexactWrapper;
   elem.wrap(cls);
+  addPopup(elem.parent());
+}
+
+function addPopup(elem) {
+  const wrapper = elem.parent();
+  wrapper
+    .append(`<div class="archangel-tag">Yes boys</div>`);
+  wrapper
+    .mouseover(() => wrapper.children(".archangel-tag").show("slow"))
+    .mouseout(() => wrapper.children(".archangel-tag").hide());
 }
 
 function gatherImages() {
-	return $('img').map(function() {
-		const element = $(this);
+	return jQuery('img').map(function() {
+		const element = jQuery(this);
 
 		if (isTooSmall(element))
 		  return;
