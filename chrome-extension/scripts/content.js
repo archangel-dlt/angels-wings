@@ -12,7 +12,6 @@ const NotAuthenticatedWrapper = `<div class='${NotAuthenticatedClass}'></div>`
 jQuery.noConflict();
 angelsWings();
 
-
 function angelsWings() {
   jQuery(window).on("load", () => {
     const images = gatherImages();
@@ -28,14 +27,18 @@ function authenticateImages(images) {
 function authenticateImage(image) {
   chrome.runtime.sendMessage(
     image.src,
-    function (data) {
-      image.data = data;
-      markImage(image, data.authentic, data.exact);
+    data => {
+      markImage(
+        image,
+        data.authentic,
+        data.exact,
+        data.payload ? data.payload.data : null
+      );
     }
   );
 }
 
-function markImage(image, isAuthentic, isExact) {
+function markImage(image, isAuthentic, isExact, data) {
   if (isAuthentic == 'error')
     return;
 
@@ -45,42 +48,50 @@ function markImage(image, isAuthentic, isExact) {
   if (parent.is("picture")) {  // The Guardian!
     const grandparent = parent.parent();
     if (grandparent.children().length == 1)
-      style(grandparent, isAuthentic, isExact);
+      style(grandparent, isAuthentic, isExact, data);
     return;
   }
 
   if ((parent.is("div") && parent.children().length == 1)) {
-    style(parent, isAuthentic, isExact);
+    style(parent, isAuthentic, isExact, data);
     return;
   }
 
-  wrap(image.element, isAuthentic, isExact);
+  wrap(image.element, isAuthentic, isExact, data);
 }
 
-function style(elem, isAuthentic, isExact) {
+function style(elem, isAuthentic, isExact, data) {
   let cls = NotAuthenticatedClass;
   if (isAuthentic)
     cls = isExact ? AuthenticatedClass : AuthenticatedInexactClass;
 
   elem.addClass(cls);
-  addPopup(elem);
+  addPopup(elem, isAuthentic, isExact, data);
 }
 
-function wrap(elem, isAuthentic, isExact) {
+function wrap(elem, isAuthentic, isExact, data) {
   let cls = NotAuthenticatedWrapper;
   if (isAuthentic)
     cls = isExact ? AuthenticatedWrapper : AuthenticatedInexactWrapper;
   elem.wrap(cls);
-  addPopup(elem.parent());
+  addPopup(elem.parent(), isAuthentic, isExact, data);
 }
 
-function addPopup(elem) {
-  const wrapper = elem.parent();
-  wrapper
-    .append(`<div class="archangel-tag">Yes boys</div>`);
-  wrapper
-    .mouseover(() => wrapper.children(".archangel-tag").show("slow"))
-    .mouseout(() => wrapper.children(".archangel-tag").hide());
+function addPopup(elem, isAuthentic, isExact, data) {
+  if (!isAuthentic)
+    return;
+
+  let popup = isExact ? "" : "Similar to:";
+  popup += data.title ? `<br><strong>${data.title}</strong>` : "";
+  popup += data.description ? `<br>${data.description}` : "";
+  popup += data.supplier ? `<br>From <i>${data.supplier}</i>` : "";
+  popup += data.referenceUrl ? `<br><a href="${data.referenceUrl}">${data.referenceUrl}</a>` : "";
+
+  elem
+    .append(`<div class="archangel-tag">${popup}</div>`);
+  elem
+    .mouseover(() => elem.children(".archangel-tag").show())
+    .mouseout(() => elem.children(".archangel-tag").hide());
 }
 
 function gatherImages() {

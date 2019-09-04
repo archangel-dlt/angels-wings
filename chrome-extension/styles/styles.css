@@ -60,11 +60,12 @@
   position: absolute;
   left: 80px;
   top: 24px;
+  max-width: 50%;
   z-index: 1000;
-  background-color: #92AD40;
+  border: 1px;
+  background-color: #aaaaaa;
   padding: 5px;
-  color: #FFFFFF;
-  font-weight: bold;
+  color: #000000;
   display: none;
 }
 
