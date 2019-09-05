@@ -8,17 +8,14 @@ const pack = 'pack';
 const title = 'title';
 const description = 'description';
 const supplier = 'supplier';
-const creator = 'creator';
-const rights = 'rights';
+const referenceUrl = 'referenceUrl';
 
 const photoFields = [
   { title: 'Title', field: title },
   { title: 'Description', field: description },
   { title: '--'},
-  { title: 'Supplier', field: supplier, optional: true },
-  { title: 'Creator', field: creator, optional: true },
-  { title: '--' },
-  { title: 'Rights Statement', field: rights, optional: true },
+  { title: 'Source', field: supplier, optional: true },
+  { title: 'URL', field: referenceUrl, optional: true },
   { title: '--' },
   { title: 'Filename', field: 'filename', readonly: true }
 ];
