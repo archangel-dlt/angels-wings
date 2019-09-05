@@ -8,6 +8,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-fileupload": "^1.1.5",
+    "lru-cache": "^5.1.1",
     "lz-string": "^1.4.4",
     "morgan": "~1.9.1",
     "web3": "0.20.6"
@@ -24,7 +25,9 @@
     "start": "babel-node ./bin/www"
   },
   "nodemonConfig": {
-    "ignore": ["ethereum/fingerprints/*"],
+    "ignore": [
+      "ethereum/fingerprints/*"
+    ],
     "delay": "2500"
   }
 }
