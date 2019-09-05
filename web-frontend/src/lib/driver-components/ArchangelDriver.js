@@ -12,7 +12,6 @@ const pathPrefix = (() => {
   path = path.substring(0, path.lastIndexOf('/'))
   return path.length === 1 ? path : `${path}/`
 })()
-const hosted = `${window.location.protocol}//${window.location.hostname}:${window.location.port}${pathPrefix}geth`
 
 async function enableMetaMask(){
   if (window.ethereum) {
@@ -37,7 +36,7 @@ async function ethereumProviders() {
   if (hasMist)
     p.push({name: 'Mist', provider: window.web3.currentProvider});
   p.push({name: 'Localhost', provider: new Web3.providers.HttpProvider('http://localhost:8545')});
-  p.push({name: hosted, provider: new Web3.providers.HttpProvider(hosted)});
+  p.push({name: 'Archangel', provider: new Web3.providers.HttpProvider('https://blockchain.surrey.ac.uk/ethereum/')});
 
   return p;
 } // ethereumProviders

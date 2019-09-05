@@ -47,7 +47,8 @@ class Body extends Component {
     if (this.state.account !== account) {
       this.setState({ account: account });
       this.state.driver.hasWritePermission()
-        .then(perm => this.setState({ canWrite: perm }));
+        .then(perm => this.setState({ canWrite: perm }))
+        .catch(() => this.setState( { canWrite: false }));
     }
 
     setTimeout(() => this.watchAccount(), 2000);

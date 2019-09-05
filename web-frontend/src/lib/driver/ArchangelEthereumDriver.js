@@ -52,12 +52,18 @@ class ArchangelEthereumDriver {
 
   //////////////////////////////////////////
   async setup(web3) {
-    this.web3_ = web3;
-
+    this.web3_ = null;
+    this.network = null;
     this.grants = { };
 
-    this.network = await ArchangelEthereumDriver.findNetwork(web3);
-    console.log(`Using ${this.network.name} network`);
+    try {
+      this.network = await ArchangelEthereumDriver.findNetwork(web3);
+      console.log(`Using ${this.network.name} network`);
+    } catch (e) {
+      return;
+    }
+
+    this.web3_ = web3;
 
     this.loadContract(this.network.id);
 
@@ -136,7 +142,7 @@ class ArchangelEthereumDriver {
 
   ////////////////////////////////////////////
   account() {
-    const accounts = this.web3_.eth.accounts;
+    const accounts = this.web3_ ? this.web3_.eth.accounts : [];
     return (accounts.length !== 0) ? accounts[0].toLowerCase() : null
   } // addressName
 

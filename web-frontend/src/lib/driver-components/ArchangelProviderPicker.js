@@ -13,7 +13,7 @@ class ArchangelProviderPicker extends React.Component {
 
   onProviderChange(key) {
     this.driver.onProviderChange(key)
-      .then(() => this.setNetworkName(this.driver.networkName))
+      .then(() => { console.log("Woo"); this.setNetworkName(this.driver.networkName) })
   } // onProviderChange
 
   setNetworkName(n) { this.setState({networkName: n}) }
