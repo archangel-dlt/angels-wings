@@ -7,7 +7,7 @@ function SearchResult({ record }) {
 
   return (
     <Fragment>
-      <PhotoPackage initialData={record.data}/>
+      <PhotoPackage initialData={record.data} readonly={true}/>
       <div className='container-fluid'>
         <div className='row'>
           <div className='col-6 offset-2'>Contains {noOfFiles} file{noOfFiles > 1 ? 's' : '' }.</div>
