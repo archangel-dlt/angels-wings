@@ -36,7 +36,7 @@ function shimResponse(sendResponse) {
 
 async function doAuthenticateImage(imageUrl, sendResponse) {
   try {
-    const response = await fetch(`${awURL}?url=${imageUrl}`);
+    const response = await fetch(`${awURL}?url=${encodeURIComponent(imageUrl)}`);
     const data = await response.json();
 
     sendResponse(data);
