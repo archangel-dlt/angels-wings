@@ -7,12 +7,6 @@ const hasMetaMask = (typeof window.web3 !== 'undefined') &&
 const hasMist = (typeof window.web3 !== 'undefined') &&
   (window.web3.currentProvider.constructor.name.startsWith('EthereumProvider'));
 
-const pathPrefix = (() => {
-  let path = window.location.pathname.replace('/index.html', '')
-  path = path.substring(0, path.lastIndexOf('/'))
-  return path.length === 1 ? path : `${path}/`
-})()
-
 async function enableMetaMask(){
   if (window.ethereum) {
     window.web3 = new Web3(window.ethereum);

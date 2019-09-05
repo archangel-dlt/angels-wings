@@ -9,6 +9,12 @@ const title = 'title';
 const description = 'description';
 const supplier = 'supplier';
 const referenceUrl = 'referenceUrl';
+const reliability = 'reliability';
+
+const realOrFake = [
+  [ 'Yes, true image', true ],
+  [ 'No, this image has been falisified', false ]
+]
 
 const photoFields = [
   { title: 'Title', field: title },
@@ -16,6 +22,8 @@ const photoFields = [
   { title: '--'},
   { title: 'Source', field: supplier, optional: true },
   { title: 'URL', field: referenceUrl, optional: true },
+  { title: '--' },
+  { title: 'Is this image reliable?', field: reliability, type: 'select', values: realOrFake },
   { title: '--' },
   { title: 'Filename', field: 'filename', readonly: true }
 ];
@@ -91,7 +99,9 @@ class PhotoPackage extends PureComponent {
           onValue={v => this.update(field.field, v)}
           ref={f => this[`${field.field}-field`] = f}
           disabled={this.props.readonly || field.readonly}
-          value={value}/>
+          value={value}
+          type={field.type}
+          values={field.values}/>
       )
     });
   } // renderFields

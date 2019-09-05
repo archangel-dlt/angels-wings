@@ -12,6 +12,12 @@ class Field extends PureComponent {
   }
 
   render() {
+    if (this.props.type === 'select')
+      return this.renderSelect();
+    return this.renderInput();
+  }
+
+  renderInput() {
     return (
       <div className={`container-fluid ${this.props.className}`}>
         <div className='row'>
@@ -30,6 +36,29 @@ class Field extends PureComponent {
       </div>
     )
   } // render
+
+  renderSelect() {
+    return (
+      <div className={`container-fluid ${this.props.className}`}>
+        <div className='row'>
+          {
+            this.props.title && <label className='col-md-2'>{this.props.title}</label>
+          }
+          <select
+            className={`form-control ${this.props.size === 'small' ? 'col-md-4' : 'col-md'}`}
+            disabled={this.props.disabled}
+            onChange={event => this.handleChange(event)}
+            >
+            {
+              this.props.values.map(
+                ([label, value]) => <option key={value} value={value}>{label}</option>
+              )
+            }
+          </select>
+        </div>
+      </div>
+    )
+  }
 } // class Field
 
 export default Field;
