@@ -20,7 +20,6 @@ async function fingerprintPhoto(filename) {
 
 function reindexFingerprints(fingerprintPath) {
   runScript(reindexer, fingerprintPath)
-    .then(console.log)
 }
 
 async function checkPhoto(photoPath, fingerprintPath) {

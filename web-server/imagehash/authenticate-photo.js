@@ -5,8 +5,6 @@ import { promises as fsp } from 'fs';
 async function authenticatePhoto(imagePath) {
   const result = await checkPhoto(imagePath, '/tmp/fingerprints');
 
-  console.log(result)
-
   if (!result.found)
     return { authentic: false };
 
