@@ -6,6 +6,9 @@
 	"icons": {
 		"128": "images/archangel-logo-128.png"
 	},
+	"browser_action": {
+		"default_popup": "popup.html"
+	},
 	"content_scripts": [
 		{
 			"matches": [
