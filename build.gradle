@@ -16,7 +16,7 @@ def dockerImageName = "${dockerOrgName}/angels-wings"
 
 ///////////////////
 task buildUIForDist(type: Copy,
-            dependsOn: [':web-frontend:build']) {
+            dependsOn: [':web-frontend:build', ':web-server:clean']) {
     group 'Top'
     description 'Build ui, ready to be bundled into back-end distribution package'
 

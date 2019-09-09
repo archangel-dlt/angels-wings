@@ -1,8 +1,9 @@
+
 task install(type: Exec) {
   commandLine 'yarn', 'install'
 }
 
-task start-dev(type: Exec,
+task startDev(type: Exec,
            dependsOn: [install]) {
   group 'Back End'
   description 'Start dev server'
