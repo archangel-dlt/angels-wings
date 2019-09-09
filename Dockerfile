@@ -14,5 +14,5 @@ RUN sudo chmod 777 /web-server
 RUN cd web-server && npm install
 RUN sudo chmod 755 /web-server
 
-COPY web-frontend/build/* /web-server/static/
+COPY web-frontend/build/ /web-server/static/
 
