@@ -15,7 +15,7 @@ def dockerOrgName = 'archangeldlt'
 def dockerImageName = "${dockerOrgName}/angels-wings"
 
 ///////////////////
-task buildUIForDist(type: Copy,
+task buildUIForDev(type: Copy,
             dependsOn: [':web-frontend:build', ':web-server:clean']) {
     group 'Top'
     description 'Build ui, ready to be bundled into back-end distribution package'
@@ -24,7 +24,7 @@ task buildUIForDist(type: Copy,
     into 'web-server/static'
 }
 
-task buildDist(dependsOn: [buildUIForDist, ':web-server:install']) {
+task buildDist(dependsOn: [':web-server:clean', ':web-frontend:build']) {
     group 'Top'
     description 'Build everything, ready for distribution'
 }
@@ -34,3 +34,17 @@ task clean(dependsOn: [':web-server:clean', ':web-frontend:clean']) {
     description 'Clean everything'
 }
 
+task buildDocker(type: Exec,
+                 dependsOn: [buildDist]) {
+  group 'Top'
+  description 'Build runnable Docker image'
+
+  commandLine 'docker', 'build', '--tag', dockerImageName, '.'
+}
+
+task pushDocker(type: Exec) {
+  group 'Util'
+  description "Push ${dockerImageName} to Docker Hub"
+
+  commandLine 'docker', 'push', dockerImageName
+}
