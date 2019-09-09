@@ -20,7 +20,8 @@
     "nodemon": "^1.19.1"
   },
   "scripts": {
-    "start": "nodemon --exec babel-node ./bin/www"
+    "start-dev": "nodemon --exec babel-node ./bin/www",
+    "start": "babel-node ./bin/www"
   },
   "nodemonConfig": {
     "ignore": ["ethereum/fingerprints/*"],

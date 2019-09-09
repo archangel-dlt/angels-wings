@@ -8,5 +8,6 @@
  */
 
 include ':web-frontend'
+include ':web-server'
 
 rootProject.name = 'archangel-angels-wings'

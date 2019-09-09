@@ -1,0 +1,20 @@
+task install(type: Exec) {
+  commandLine 'yarn', 'install'
+}
+
+task start-dev(type: Exec,
+           dependsOn: [install]) {
+  group 'Back End'
+  description 'Start dev server'
+
+  commandLine 'yarn', 'start-dev'
+}
+
+task clean(type: Delete) {
+  group 'Back End'
+  description 'Cleans up'
+
+  delete 'node_modules',
+             fileTree('static') { exclude '.gitkeep' },
+             'static/static'
+}
