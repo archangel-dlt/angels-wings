@@ -17,5 +17,7 @@ task clean(type: Delete) {
 
   delete 'node_modules',
              fileTree('static') { exclude '.gitkeep' },
-             'static/static'
+             'static/static',
+             'package-lock.json',
+             'yarn.lock'
 }
