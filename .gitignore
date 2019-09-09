@@ -6,3 +6,4 @@ yarn.lock
 __pycache__
 build
 fingerprints
+web-server/static/*
