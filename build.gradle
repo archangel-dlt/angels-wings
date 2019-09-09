@@ -24,3 +24,13 @@ task buildUIForDist(type: Copy,
     into 'web-server/static'
 }
 
+task buildDist(dependsOn: [buildUIForDist, ':web-server:install']) {
+    group 'Top'
+    description 'Build everything, ready for distribution'
+}
+
+task clean(dependsOn: [':web-server:clean', ':web-frontend:clean']) {
+    group 'Top'
+    description 'Clean everything'
+}
+
