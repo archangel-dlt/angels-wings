@@ -6,7 +6,10 @@ import LRU from 'lru-cache';
 import { getTempFilename as tempFilename } from 'express-fileupload/lib/utilities';
 import { authenticatePhoto } from '../imagehash/authenticate-photo'
 
-const cache = new LRU(500);
+const cache = new LRU({
+  max: 500,
+  maxAge: 60 * 60 * 1000
+});
 
 async function authenticate(req, res) {
   const imageUrl = req.query.url;
