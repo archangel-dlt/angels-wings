@@ -5,9 +5,11 @@ const baseLocation = baseUrl + window.location.pathname.substring(0, window.loca
 const AuthenticatedClass = 'archangel-authenticated';
 const AuthenticatedInexactClass = 'archangel-authenticated-inexact';
 const NotAuthenticatedClass = 'archangel-not-authenticated';
+const FalsifiedClass = 'archangel-falsified';
 const AuthenticatedWrapper = `<div class='${AuthenticatedClass}'></div>`;
 const AuthenticatedInexactWrapper = `<div class='${AuthenticatedInexactClass}'></div>`;
 const NotAuthenticatedWrapper = `<div class='${NotAuthenticatedClass}'></div>`
+const FalsifiedWrapper = `<div class='${FalsifiedClass}'></div>`
 
 jQuery.noConflict();
 angelsWings();
@@ -32,13 +34,14 @@ function authenticateImage(image) {
         image,
         data.authentic,
         data.exact,
+        (data.payload && data.payload.data) ? data.payload.data.reliability === 'false' : false,
         data.payload ? data.payload.data : null
       );
     }
   );
 }
 
-function markImage(image, isAuthentic, isExact, data) {
+function markImage(image, isAuthentic, isExact, isFalsified, data) {
   if (isAuthentic == 'error')
     return;
 
@@ -48,36 +51,41 @@ function markImage(image, isAuthentic, isExact, data) {
   if (parent.is("picture")) {  // The Guardian!
     const grandparent = parent.parent();
     if (grandparent.children().length == 1)
-      style(grandparent, isAuthentic, isExact, data);
+      style(grandparent, isAuthentic, isExact, isFalsified, data);
     return;
   }
 
   if ((parent.is("div") && parent.children().length == 1)) {
-    style(parent, isAuthentic, isExact, data);
+    style(parent, isAuthentic, isExact, isFalsified, data);
     return;
   }
 
-  wrap(image.element, isAuthentic, isExact, data);
+  wrap(image.element, isAuthentic, isExact, isFalsified, data);
 }
 
-function style(elem, isAuthentic, isExact, data) {
+function style(elem, isAuthentic, isExact, isFalsified, data) {
   let cls = NotAuthenticatedClass;
   if (isAuthentic)
     cls = isExact ? AuthenticatedClass : AuthenticatedInexactClass;
+  if (isFalsified)
+    cls = FalsifiedClass
 
   elem.addClass(cls);
-  addPopup(elem, isAuthentic, isExact, data);
+  addPopup(elem, isAuthentic, isExact, isFalsified, data);
 }
 
-function wrap(elem, isAuthentic, isExact, data) {
+function wrap(elem, isAuthentic, isExact, isFalsified, data) {
   let cls = NotAuthenticatedWrapper;
   if (isAuthentic)
     cls = isExact ? AuthenticatedWrapper : AuthenticatedInexactWrapper;
+  if (isFalsified)
+    cls = FalsifiedWrapper;
+
   elem.wrap(cls);
-  addPopup(elem.parent(), isAuthentic, isExact, data);
+  addPopup(elem.parent(), isAuthentic, isExact, isFalsified, data);
 }
 
-function addPopup(elem, isAuthentic, isExact, data) {
+function addPopup(elem, isAuthentic, isExact, isFalsified, data) {
   if (!isAuthentic)
     return;
 
@@ -87,8 +95,11 @@ function addPopup(elem, isAuthentic, isExact, data) {
   popup += data.supplier ? `<br>&nbsp;&nbsp;From <i>${data.supplier}</i>` : "";
   popup += data.referenceUrl ? `<br>&nbsp;&nbsp;<a href="${data.referenceUrl}">${data.referenceUrl}</a>` : "";
 
+  if (isFalsified)
+    popup += "<br><br><strong>This image is known to be falsified.</strong>"
+
   elem
-    .append(`<div class="archangel-tag">${popup}</div>`);
+    .append(`<div class="archangel-tag ${ isFalsified ? 'archangel-fakey' : ''}">${popup}</div>`);
   elem
     .mouseover(() => elem.children(".archangel-tag").show())
     .mouseout(() => elem.children(".archangel-tag").hide());
