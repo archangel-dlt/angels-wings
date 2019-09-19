@@ -1,3 +1,4 @@
+import process from 'process';
 import express from 'express';
 import fileUpload from 'express-fileupload';
 import path from 'path';
@@ -7,6 +8,19 @@ import { authenticate} from './actions/authenticate-action'
 import { StartAngelsWings } from './hashDB/AngelsWings';
 
 const app = express();
+
+function urlPrefix() {
+  let prefix = process.env.PUBLIC_URL;
+  if (prefix)
+    prefix = prefix.trim();
+
+  if (!prefix || prefix.length === 0)
+    return null;
+
+  if (prefix[0] === '/')
+    return prefix;
+  return `/${prefix}`;
+}
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -18,11 +32,22 @@ app.use(fileUpload({
   tempFileDir : '/tmp/'
 }));
 
-app.get('/', (req, res) => res.redirect(301, '/index.html'));
-app.use(express.static(path.join(__dirname, 'static')));
+const routes = express.Router()
+routes.get('/', (req, res) => res.redirect(301, 'index.html'));
+routes.use(express.static(path.join(__dirname, 'static')));
 
-app.post('/fingerprint', fingerprint);
-app.get('/authenticate', authenticate);
+routes.post('/fingerprint', fingerprint);
+routes.get('/authenticate', authenticate);
+
+const prefix = urlPrefix()
+if (prefix) {
+  app.get('/', (req, res) => res.redirect(301, `${prefix}/index.html`));
+  app.use(prefix, routes);
+} else {
+  app.use('/', routes);
+}
+
+console.log(`url prefix is ${prefix}`);
 
 StartAngelsWings();
 
