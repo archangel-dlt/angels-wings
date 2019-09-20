@@ -1,4 +1,5 @@
-const awURL = "http://localhost:3000/authenticate";
+//const awURL = "http://localhost:3000/authenticate";
+const awURL = "https://blockchain.surrey.ac.uk/angelwings/authenticate";
 
 let inflight = 0;
 const queued = [];
